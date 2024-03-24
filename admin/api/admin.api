@@ -1,0 +1,106 @@
+service admin-api {
+	// 设备管理
+	// 设备列表
+	@handler DeviceListHandler
+	get /device/list (DeviceListRequest) returns (DeviceListReply)
+
+	// 创建设备
+	@handler DeviceCreateHandler
+	post /device/create (DeviceCreateRequest)
+
+	// 修改设备
+	@handler DeviceModifyHandler
+	put /device/modify (DeviceModifyRequest)
+
+	// 删除设备
+	@handler DeviceDeleteHandler
+	delete /device/delete (DeviceDeleteRequest)
+
+	// 产品管理
+	// 产品列表
+	@handler ProductListHandler
+	get /product/list (ProductListRequst) returns (ProductListReply)
+
+	// 创建产品
+	@handler ProductCreateHandler
+	post /product/create (ProductCreateRequest)
+
+	// 修改产品
+	@handler ProductModifyHandler
+	put /product/modify (ProductModifyRequest)
+
+	// 删除产品
+	@handler ProductDeleteHandler
+	delete /product/delete (ProductDeleteRequest)
+}
+
+type DeviceDeleteRequest {
+	Identity string `json:"identity"`
+}
+
+type DeviceModifyRequest {
+	Identity string `json:"identity"`
+	DeviceCreateRequest
+}
+
+type DeviceCreateRequest {
+	Name            string `json:"name"`
+	ProductIdentity string `json:"product_identity"`
+}
+
+type ProductDeleteRequest {
+	Identity string `json:"identity"`
+}
+
+type ProductModifyRequest {
+	Identity string `json:"identity"`
+	ProductCreateRequest
+}
+
+type ProductCreateRequest {
+	Name string `json:"name"`
+	Desc string `json:"desc"`
+}
+
+type ProductListRequst {
+	BaseRequest
+}
+
+type ProductListReply {
+	List  []*ProductListBaisc `json:"list"`
+	Count int64               `json:"count"`
+}
+
+type ProductListBaisc {
+	id        uint64 `json:"id"`
+	Key       string `json:"key"`
+	Name      string `json:"name"`
+	Desc      string `json:"desc"`
+	CreatedAt string `json:"created_at"`
+}
+
+type DeviceListRequest {
+	BaseRequest
+}
+
+type DeviceListBaisc {
+	id             uint64 `json:"id"`
+	Name           string `json:"name"`
+	Key            string `json:"key"`
+	Secret         string `json:"secret"`
+	ProductName    string `json:"product_name"`
+	LastOnlineTime int64  `json:"last_online_time"`
+}
+
+type DeviceListReply {
+	List  []*DeviceListBaisc `json:"list"`
+	Count int64              `json:"count"`
+}
+
+// 公共 type
+type BaseRequest {
+	Page int    `json:"page,optional"`
+	Size int    `json:",optional"`
+	Name string `json:"name,optional"`
+}
+

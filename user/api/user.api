@@ -1,0 +1,18 @@
+syntax = "v1"
+
+type UserLoginRequest {
+	UserName string `json:"username"`
+	Password string `json:"password"`
+}
+
+@server (
+	prefix: /api/user
+)
+service user-api {
+	@handler UserLoginHandler
+	get /login (UserLoginRequest) returns (string)
+
+	@handler UserRegisterHandler
+	get /register (UserLoginRequest) returns (string)
+}
+
