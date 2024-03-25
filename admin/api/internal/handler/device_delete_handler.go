@@ -18,7 +18,7 @@ func DeviceDeleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := logic.NewDeviceDeleteLogic(r.Context(), svcCtx)
-		err := l.DeviceDelete(&req)
-		common.Response(r, w, nil, err)
+		resp, err := l.DeviceDelete(&req)
+		common.Response(r, w, resp, err)
 	}
 }

@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"iotPlatform/models"
+	"log"
 
 	"iotPlatform/admin/api/internal/svc"
 	"iotPlatform/admin/api/internal/types"
@@ -23,8 +25,14 @@ func NewProductModifyLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Pro
 	}
 }
 
-func (l *ProductModifyLogic) ProductModify(req *types.ProductModifyRequest) error {
-	// todo: add your logic here and delete this line
-
-	return nil
+func (l *ProductModifyLogic) ProductModify(req *types.ProductModifyRequest) (resp string, err error) {
+	err = l.svcCtx.DB.Where("id = ?", req.Id).
+		Updates(&models.ProductBasic{
+			Name: req.Name,
+			Desc: req.Desc,
+		}).Error
+	if err != nil {
+		log.Println("ERR: admin.api.logic.product_modify_logic: ERR1: ", err)
+	}
+	return
 }

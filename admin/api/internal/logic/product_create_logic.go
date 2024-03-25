@@ -2,6 +2,9 @@ package logic
 
 import (
 	"context"
+	"github.com/google/uuid"
+	"iotPlatform/models"
+	"log"
 
 	"iotPlatform/admin/api/internal/svc"
 	"iotPlatform/admin/api/internal/types"
@@ -23,8 +26,14 @@ func NewProductCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Pro
 	}
 }
 
-func (l *ProductCreateLogic) ProductCreate(req *types.ProductCreateRequest) error {
-	// todo: add your logic here and delete this line
-
-	return nil
+func (l *ProductCreateLogic) ProductCreate(req *types.ProductCreateRequest) (resp string, err error) {
+	err = l.svcCtx.DB.Create(&models.ProductBasic{
+		Key:  uuid.New().String(),
+		Name: req.Name,
+		Desc: req.Desc,
+	}).Error
+	if err != nil {
+		log.Println("ERR: admin.api.logic.product_create_logic: ERR1: ", err)
+	}
+	return
 }

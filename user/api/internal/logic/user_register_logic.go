@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"errors"
+	"iotPlatform/common"
 	"iotPlatform/common/jwts"
 	"iotPlatform/models"
 	"log"
@@ -28,7 +29,6 @@ func NewUserRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *User
 }
 
 func (l *UserRegisterLogic) UserRegister(req *types.UserLoginRequest) (token string, err error) {
-	auth := l.svcCtx.Config.Auth
 	ub := models.UserBasic{
 		Name:     req.UserName,
 		Password: req.Password,
@@ -42,7 +42,7 @@ func (l *UserRegisterLogic) UserRegister(req *types.UserLoginRequest) (token str
 		Identity: ub.Id,
 		Name:     ub.Name,
 		Password: ub.Password,
-	}, auth.AccessSecret, auth.AccessExpire)
+	}, common.JwtAccessSecret, common.JwtAccessExpire)
 	if err != nil {
 		log.Println("ERR: api.logic.user_login_logic.UserLogin: ", err)
 		return "", errors.New("token创建失败")

@@ -18,7 +18,7 @@ func ProductCreateHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := logic.NewProductCreateLogic(r.Context(), svcCtx)
-		err := l.ProductCreate(&req)
-		common.Response(r, w, nil, err)
+		resp, err := l.ProductCreate(&req)
+		common.Response(r, w, resp, err)
 	}
 }

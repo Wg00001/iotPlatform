@@ -1,5 +1,7 @@
 package common
 
+import "github.com/golang-jwt/jwt/v4"
+
 var (
 	//DSN   = os.Getenv("MysqlDSN")
 	DSN             = "root:03719@tcp(127.0.0.1:3306)"
@@ -9,3 +11,10 @@ var (
 	JwtAccessSecret = "iot-platform"
 	JwtAccessExpire = int64(36000)
 )
+
+type UserClaim struct {
+	Id       uint   `json:"id"`
+	Identity string `json:"identity"`
+	Name     string `json:"name"`
+	jwt.RegisteredClaims
+}

@@ -8,12 +8,12 @@ type BaseRequest struct {
 }
 
 type DeviceCreateRequest struct {
-	Name            string `json:"name"`
-	ProductIdentity string `json:"product_identity"`
+	Name string `json:"name"`
+	Pid  uint64 `json:"product_id`
 }
 
 type DeviceDeleteRequest struct {
-	Identity string `json:"identity"`
+	Id uint64 `json:"id"`
 }
 
 type DeviceListBaisc struct {
@@ -35,7 +35,7 @@ type DeviceListRequest struct {
 }
 
 type DeviceModifyRequest struct {
-	Identity string `json:"identity"`
+	Id uint64 `json:"id"`
 	DeviceCreateRequest
 }
 
@@ -45,7 +45,7 @@ type ProductCreateRequest struct {
 }
 
 type ProductDeleteRequest struct {
-	Identity string `json:"identity"`
+	Id uint64 `json:"id"`
 }
 
 type ProductListBaisc struct {
@@ -66,6 +66,6 @@ type ProductListRequst struct {
 }
 
 type ProductModifyRequest struct {
-	Identity string `json:"identity"`
+	Id uint64 `json:"id"`
 	ProductCreateRequest
 }

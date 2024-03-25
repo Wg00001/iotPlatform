@@ -18,7 +18,7 @@ func DeviceCreateHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := logic.NewDeviceCreateLogic(r.Context(), svcCtx)
-		err := l.DeviceCreate(&req)
-		common.Response(r, w, nil, err)
+		resp, err := l.DeviceCreate(&req)
+		common.Response(r, w, resp, err)
 	}
 }

@@ -18,7 +18,7 @@ func ProductDeleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := logic.NewProductDeleteLogic(r.Context(), svcCtx)
-		err := l.ProductDelete(&req)
-		common.Response(r, w, nil, err)
+		resp, err := l.ProductDelete(&req)
+		common.Response(r, w, resp, err)
 	}
 }

@@ -6,15 +6,15 @@ service admin-api {
 
 	// 创建设备
 	@handler DeviceCreateHandler
-	post /device/create (DeviceCreateRequest)
+	post /device/create (DeviceCreateRequest) returns (string)
 
 	// 修改设备
 	@handler DeviceModifyHandler
-	put /device/modify (DeviceModifyRequest)
+	put /device/modify (DeviceModifyRequest) returns (string)
 
 	// 删除设备
 	@handler DeviceDeleteHandler
-	delete /device/delete (DeviceDeleteRequest)
+	delete /device/delete (DeviceDeleteRequest) returns (string)
 
 	// 产品管理
 	// 产品列表
@@ -23,37 +23,37 @@ service admin-api {
 
 	// 创建产品
 	@handler ProductCreateHandler
-	post /product/create (ProductCreateRequest)
+	post /product/create (ProductCreateRequest) returns (string)
 
 	// 修改产品
 	@handler ProductModifyHandler
-	put /product/modify (ProductModifyRequest)
+	put /product/modify (ProductModifyRequest) returns (string)
 
 	// 删除产品
 	@handler ProductDeleteHandler
-	delete /product/delete (ProductDeleteRequest)
+	delete /product/delete (ProductDeleteRequest) returns (string)
 }
 
 type DeviceDeleteRequest {
-	Identity string `json:"identity"`
+	id uint64 `json:"id"`
 }
 
 type DeviceModifyRequest {
-	Identity string `json:"identity"`
+	id uint64 `json:"id"`
 	DeviceCreateRequest
 }
 
 type DeviceCreateRequest {
 	Name            string `json:"name"`
-	ProductIdentity string `json:"product_identity"`
+	Pid uint64 `json:"product_id"`
 }
 
 type ProductDeleteRequest {
-	Identity string `json:"identity"`
+	id uint64 `json:"id"`
 }
 
 type ProductModifyRequest {
-	Identity string `json:"identity"`
+	id uint64 `json:"id"`
 	ProductCreateRequest
 }
 

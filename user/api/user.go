@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
-	"iotPlatform/models"
 	"iotPlatform/user/api/internal/config"
 	"iotPlatform/user/api/internal/handler"
 	"iotPlatform/user/api/internal/svc"
@@ -15,8 +14,6 @@ import (
 var configFile = flag.String("f", "etc/user-api.yaml", "the config file")
 
 func main() {
-
-	models.NewDB()
 
 	flag.Parse()
 

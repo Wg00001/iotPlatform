@@ -2,6 +2,9 @@ package logic
 
 import (
 	"context"
+	"errors"
+	"iotPlatform/models"
+	"log"
 
 	"iotPlatform/admin/api/internal/svc"
 	"iotPlatform/admin/api/internal/types"
@@ -23,8 +26,25 @@ func NewProductDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Pro
 	}
 }
 
-func (l *ProductDeleteLogic) ProductDelete(req *types.ProductDeleteRequest) error {
-	// todo: add your logic here and delete this line
-
-	return nil
+func (l *ProductDeleteLogic) ProductDelete(req *types.ProductDeleteRequest) (resp string, err error) {
+	var cnt int64
+	err = l.svcCtx.DB.Model(new(models.DeviceBasic)).
+		Where("pid = ?", req.Id).
+		Count(&cnt).Error
+	if err != nil {
+		log.Println("ERR: admin.api.logic.product_delete_logic: ERR1: ", err)
+		return
+	}
+	if cnt > 0 {
+		err = errors.New("设备已试炼，无法删除")
+		return
+	}
+	err = l.svcCtx.DB.Debug().
+		Where("id = ?", req.Id).
+		Delete(new(models.ProductBasic)).
+		Error
+	if err != nil {
+		log.Println("ERR: admin.api.logic.product_delete_logic: ERR2: ", err)
+	}
+	return
 }

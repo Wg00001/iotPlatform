@@ -18,7 +18,7 @@ func ProductModifyHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := logic.NewProductModifyLogic(r.Context(), svcCtx)
-		err := l.ProductModify(&req)
-		common.Response(r, w, nil, err)
+		resp, err := l.ProductModify(&req)
+		common.Response(r, w, resp, err)
 	}
 }

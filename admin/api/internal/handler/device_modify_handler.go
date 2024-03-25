@@ -18,7 +18,7 @@ func DeviceModifyHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := logic.NewDeviceModifyLogic(r.Context(), svcCtx)
-		err := l.DeviceModify(&req)
-		common.Response(r, w, nil, err)
+		resp, err := l.DeviceModify(&req)
+		common.Response(r, w, resp, err)
 	}
 }
