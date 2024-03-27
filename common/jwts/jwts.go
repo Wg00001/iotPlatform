@@ -3,11 +3,12 @@ package jwts
 import (
 	"errors"
 	"github.com/golang-jwt/jwt/v4"
+	"iotPlatform/common"
 	"time"
 )
 
 type JwtPayLoad struct {
-	Identity uint64 `json:"identity"` //id
+	Id       uint64 `json:"id"`       //id
 	Name     string `json:"username"` // 用户名
 	Password string `json:"password"` //用密码签发
 }
@@ -17,7 +18,9 @@ type CustomClaims struct {
 }
 
 // GenToken 创建 Token
-func GenToken(user JwtPayLoad, accessSecret string, expires int64) (string, error) {
+func GenToken(user JwtPayLoad) (string, error) {
+	accessSecret := common.JwtAccessSecret
+	expires := common.JwtAccessExpire
 	claim := CustomClaims{
 		JwtPayLoad: user,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -30,8 +33,9 @@ func GenToken(user JwtPayLoad, accessSecret string, expires int64) (string, erro
 }
 
 // ParseToken 解析 token
-func ParseToken(tokenStr string, accessSecret string, expires int64) (*CustomClaims, error) {
-
+func ParseToken(tokenStr string) (*CustomClaims, error) {
+	accessSecret := common.JwtAccessSecret
+	//expires := common.JwtAccessExpire
 	token, err := jwt.ParseWithClaims(tokenStr, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(accessSecret), nil
 	})

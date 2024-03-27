@@ -18,3 +18,4 @@ type UserClaim struct {
 	Name     string `json:"name"`
 	jwt.RegisteredClaims
 }
+type M map[string]interface{}

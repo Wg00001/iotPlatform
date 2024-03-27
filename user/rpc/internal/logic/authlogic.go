@@ -2,7 +2,8 @@ package logic
 
 import (
 	"context"
-
+	"errors"
+	"iotPlatform/common/jwts"
 	"iotPlatform/user/rpc/internal/svc"
 	"iotPlatform/user/rpc/types/user"
 
@@ -24,7 +25,17 @@ func NewAuthLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AuthLogic {
 }
 
 func (l *AuthLogic) Auth(in *user.UserAuthRequest) (*user.UserAuthReply, error) {
-	// todo: add your logic here and delete this line
-
-	return &user.UserAuthReply{}, nil
+	if in.Token == "" {
+		return nil, errors.New("必填项不能为空")
+	}
+	userClaim, err := jwts.ParseToken(in.Token)
+	if err != nil {
+		return nil, err
+	}
+	resp := new(user.UserAuthReply)
+	resp.Id = userClaim.Id
+	resp.Extend = map[string]string{
+		"name": userClaim.Name,
+	}
+	return resp, nil
 }

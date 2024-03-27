@@ -4,14 +4,11 @@ import (
 	"bytes"
 	"crypto/md5"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/golang-jwt/jwt/v4"
 	"io/ioutil"
 	"iotPlatform/common"
 	"net/http"
 	"strings"
-	"time"
 )
 
 func Md5(s string) string {
@@ -31,37 +28,6 @@ func RFC3339ToNormalTime(rfc3339 string) string {
 		return rfc3339
 	}
 	return strings.Split(rfc3339, "T")[0] + " " + strings.Split(rfc3339, "T")[1][:8]
-}
-
-func GenerateToken(id uint, identity, name string, second int) (string, error) {
-	uc := common.UserClaim{
-		Id:       id,
-		Identity: identity,
-		Name:     name,
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Second * time.Duration(second))),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, uc)
-	tokenString, err := token.SignedString([]byte(common.JwtAccessSecret))
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
-}
-
-func AnalyzeToken(token string) (*common.UserClaim, error) {
-	uc := new(common.UserClaim)
-	claims, err := jwt.ParseWithClaims(token, uc, func(token *jwt.Token) (interface{}, error) {
-		return []byte(common.JwtAccessSecret), nil
-	})
-	if err != nil {
-		return nil, err
-	}
-	if !claims.Valid {
-		return uc, errors.New("token is invalid")
-	}
-	return uc, err
 }
 
 // httpRequest .
